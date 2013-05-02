@@ -7,7 +7,7 @@ class GitSyncTest < MiniTest::Unit::TestCase
   def setup
     basedir = "/tmp/etc/puppet/environments"
     local_repo = "/tmp/var/pph-puppet/repo"
-    source = "git@github.com:PeoplePerHour/PPH-Puppet.git"
+    source = ""
 
     [basedir, local_repo].each { |f| FileUtils.mkdir_p(f) }
 
