@@ -7,9 +7,9 @@ class Hooker
     return @res.write "go away fool" if payload.nil?
 
     # sync the thing
-    @basedir = "/etc/puppet/environments"
-    @local_repo = "/var/pph-puppet/repo"
-    @source = ENV['gitrepo']
+    @basedir = ENV['PUPPET_ENVIRONMENTS_ROOT']
+    @local_repo = ENV['PUPPET_LOCAL_REPO']
+    @source = ENV['PUPPET_GIT_REPO']
 
     gitsync = GitSync.new @basedir, @local_repo, @source
     gitsync.git_open_or_init
