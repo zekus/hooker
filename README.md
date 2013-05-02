@@ -1,5 +1,8 @@
-Hooker: yet another GitHub Puppet Hook
+Hooker: a GitHub Puppet Hook
 ======================================
+
+This hooker will automatically create puppet environments based on the branches present in your puppet repository.
+To be useful, you need to setup your puppet master to use environments as described in the official documentation http://docs.puppetlabs.com/guides/environment.html
 
 Setup using Passenger
 ---------------------
