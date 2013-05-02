@@ -1,13 +1,46 @@
 Hooker: a GitHub Puppet Hook
 ======================================
 
-This hooker will automatically create puppet environments based on the branches present in your puppet repository.
+This hooker is a rack application that will automatically create puppet environments based on the branches present in your puppet repository when receive an hook from github.
+
 To be useful, you need to setup your puppet master to use environments as described in the official documentation http://docs.puppetlabs.com/guides/environment.html
 
-Setup using Passenger
----------------------
-To setup the hook, install passenger and setup a virtual host for the application then drop this in.
-To make apache works, you need to add the github ssh key in /var/www/.ssh following the github help pages.
+Setup using Passenger and Apache
+--------------------------------
+To setup the hook, install passenger and create a virtual host for the application like the following:
+```apache
+Listen 5555
+
+<VirtualHost *:5555>
+        ServerName puppet.example.com
+        ServerAdmin devops@example.com
+
+        PassengerLogLevel 3
+        PassengerHighPerformance on
+        
+        SetEnv PUPPET_ENVIRONMENTS_ROOT /etc/puppet/environments
+        SetEnv PUPPET_LOCAL_REPO /etc/puppet/repo
+        SetEnv PUPPET_GIT_REPO git@github.com:example/puppet.git
+
+        DocumentRoot /var/www/hooker/public/
+        <Directory /var/www/hooker/public/>
+                Options None
+                Order allow,deny
+                allow from all
+        </Directory>
+
+        CustomLog ${APACHE_LOG_DIR}/hooker.access.log combined
+        ErrorLog ${APACHE_LOG_DIR}/hooker.error.log
+
+        LogLevel warn
+        ServerSignature On
+</VirtualHost>
+```
+then drop the code in /var/www/hooker/public/.
+
+To make the script work and checkout the new code from GitHub, you need to add the ssh key of the user that have access to the GitHub puppet repository in /var/www/.ssh .
+
+### debugging ###
 
 To debug the application start it with
 ```bash
