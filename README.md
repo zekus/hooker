@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/zekus/hooker.svg)](https://travis-ci.org/zekus/hooker)
+
 Hooker: a GitHub Puppet Hook
 ======================================
 
