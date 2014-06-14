@@ -1,0 +1,8 @@
+image: bradrydzewski/ruby:2.0.0
+script:
+  - bundle install
+  - bundle exec rake
+notify:
+  email:
+    recipients:
+      - antonio.lorusso@gmail.com
