@@ -35,7 +35,7 @@ class GitSync
       git.sh("#{Grit::Git.git_binary} --git-dir=#{git.git_dir} --work-tree=#{git.work_tree} reset --hard HEAD")
       git.sh("#{Grit::Git.git_binary} --git-dir=#{git.git_dir} --work-tree=#{git.work_tree} checkout #{branch_name}")
 
-      Rsync.run(local_repo, "#{basedir}/#{simple_branch_name}") do |result|
+      Rsync.run(local_repo, "#{basedir}/#{simple_branch_name}", ["-a --delete"]) do |result|
         if result.success?
           result.changes.each do |change|
             puts "#{change.filename} (#{change.summary})"
