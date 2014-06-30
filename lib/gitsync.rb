@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'grit'
+require 'rsync'
 
 class GitSync
   attr_accessor :basedir, :local_repo, :source, :repo
@@ -34,8 +35,15 @@ class GitSync
       git.sh("#{Grit::Git.git_binary} --git-dir=#{git.git_dir} --work-tree=#{git.work_tree} reset --hard HEAD")
       git.sh("#{Grit::Git.git_binary} --git-dir=#{git.git_dir} --work-tree=#{git.work_tree} checkout #{branch_name}")
 
-      FileUtils.rm_rf("#{basedir}/#{simple_branch_name}")
-      FileUtils.cp_r local_repo, "#{basedir}/#{simple_branch_name}", :remove_destination => true
+      Rsync.run(local_repo, "#{basedir}/#{simple_branch_name}") do |result|
+        if result.success?
+          result.changes.each do |change|
+            puts "#{change.filename} (#{change.summary})"
+          end
+        else
+          puts result.error
+        end
+      end
     end
 
     env_cleanup
