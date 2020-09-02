@@ -9,7 +9,7 @@ GEM
     mime-types (1.19)
     minitest (3.3.0)
     posix-spawn (0.3.6)
-    rack (1.4.1)
+    rack (2.1.4)
     rake (10.1.0)
 
 PLATFORMS
